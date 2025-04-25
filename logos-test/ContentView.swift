@@ -39,66 +39,10 @@ struct ContentView: View {
                   "moon-rising",
                   "pink-mountain"]
     
-    @State private var randomVerse = "For I know the plans I have for you, declares the Lord, plans to prosper you and not harm you, plans to give you hope and a future. - Jeremiah 29:11"
-    @State private var randomImage = "green-branch-white-social-template"
-    @State private var xOffset: CGFloat = 0
-
-    func getBibleVerse() {
-        var prevRandomVerse = randomVerse
-        while (randomVerse == prevRandomVerse) {
-            randomVerse = bibleVerses.randomElement() ?? "No verse available"
-        }
-        prevRandomVerse = randomVerse
-    }
     
-    func getBackgroundImage() {
-        var prevRandomImage = randomImage
-        while (randomImage == prevRandomImage) {
-            randomImage = images.randomElement() ?? "green-branch-white-social-template"
-        }
-        prevRandomImage = randomImage
-    }
-    
-    func changeAppScreen() {
-        withAnimation(Animation
-            .easeInOut(duration: 2.0)) {
-                getBibleVerse()
-                getBackgroundImage()
-            }
-    }
     
     var body: some View {
-        
-        ZStack{
-            Image(randomImage)
-            .resizable()
-            .ignoresSafeArea()
-            VStack {
-                Text(randomVerse)
-                    .font(.custom("Georgia", size: 18))
-                    .padding()
-                    .multilineTextAlignment(.center)
-                    .background(Color.white.opacity(0.7))
-                    .cornerRadius(10)
-                    .foregroundColor(.black)
-                
-                Button(action: changeAppScreen)
-                {
-                    Text("Get Random Verse")
-                }
-                .padding()
-            }
-            .onAppear() {
-                // do nothing
-            }
-        }
-        .offset(x : xOffset)
-        .gesture(
-            DragGesture()
-                .onChanged ({ value in
-                    xOffset = value.translation.width
-                })
-        )
+        VerseView(bibleVerses : bibleVerses, images : images)
     }
 }
 
